@@ -1,2 +1,10 @@
 
 *.asv
+data_table_form/honest_irrelevant.mat
+data_table_form/honest_probe.mat
+data_table_form/honest_target.mat
+data_table_form/lying_irrelevant.mat
+data_table_form/lying_probe.mat
+data_table_form/lying_target.mat
+functions/data_subject.mat
+functions/final_data.mat

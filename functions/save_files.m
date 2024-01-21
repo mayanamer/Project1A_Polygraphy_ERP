@@ -12,12 +12,12 @@ end
 filepath = '..\data_table_form\lying_probe.mat';
 save(filepath);
 processFiles("..\lying", filepath, 'probe.txt')
-%%
+
 % lying target
 filepath = '..\data_table_form\lying_target.mat';
 save(filepath);
 processFiles("..\lying", filepath, 'target.txt')
-%%
+
 % lying irrelevant
 filepath = '..\data_table_form\lying_irrelevant.mat';
 save(filepath);
