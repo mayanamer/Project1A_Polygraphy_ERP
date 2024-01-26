@@ -30,7 +30,7 @@ honest_path_list = {honest_probe_path, honest_target_path, honest_irrelevant_pat
 addpath("../EEG-Feature-Extraction-Toolbox-main");
 % Preprocessing
 f_low = 0.3;
-f_high = 30;
+f_high = 50;
 t_start = -0.5;
 t_end = 1.1;
 
