@@ -30,7 +30,7 @@ final_data = calcAvg(final_data);
 
 stam_signal_name = final_data.honest_irrelevant{1, 5000}.tab;
 disp(stam_signal_name);
-% save("final_data");
+save("final_data");
 %%
 function [cell_arr_inner] = createStructInner(curr_path)
 % creates structs of all subjects, sessions,and itarations
@@ -73,7 +73,11 @@ function [subject_table] = createSessionTable(session, repNumber)
     counter =1;
     for i = 1:CHANNEL_NUMBER
         if (ismember(i, elects))
-            subject_table(:,counter) = session(:,repNumber,i) - session(:,repNumber,ground);
+            if (i == electrodes.enum.Fp1.index ||  i == electrodes.enum.Fp2.index)
+                subject_table(:,counter) = session(:,repNumber,ground) - session(:,repNumber,i);
+            else
+                subject_table(:,counter) = session(:,repNumber,i) - session(:,repNumber,ground);
+            end
             counter = counter + 1;
         end
     end 
