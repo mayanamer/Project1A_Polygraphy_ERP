@@ -1,10 +1,10 @@
 constScript;
 
 %% choose a signal
-subject = 8;
-session = 2;
-rep = 10;
-type = 'lying_probe';
+subject = 9;
+session = 5;
+rep = 5;
+type = 'honest_irrelevant';
 
 % get the correct signal table
 signal = final_data.(type){1,subject*session*rep}.tab;
@@ -39,10 +39,11 @@ plot(t, signal(3, :), "g",'LineWidth',1);
 hold on;
 plot(t, signal(4, :), "m",'LineWidth',1);
 hold on;
-plot(t, signal(5, :), "k",'LineWidth',2);
+plot(t, signal(5, :), ":k",'LineWidth',1);
 xlabel("time [sec]");
 title(type);
 legend("FP1", "FP2", "P3", "P4", "avg");
 grid on;
 
 %disp(signal);
+
