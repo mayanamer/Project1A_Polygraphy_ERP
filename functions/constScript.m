@@ -3,7 +3,7 @@
 fs = 500;
 T = 0.002;
 sample_length = 1.6; %sec
-number_of_sumples = 800;
+number_of_samples = 800;
 TAG_NUM = 3; % Probe, Target, Irrelevant
 SUBJECT_NUMBER = 15;
 SESSION_NUMBER = 5;
