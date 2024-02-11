@@ -18,15 +18,15 @@ cell_arr_honest_i = createStructInner(honest_path_list{3});
 
 %% 
 
-final_data = struct('lying_probe', {cell_arr_lying_p},'lying_target', {cell_arr_lying_t}, ...
+final_data_4_channels = struct('lying_probe', {cell_arr_lying_p},'lying_target', {cell_arr_lying_t}, ...
     'lying_irrelevant', {cell_arr_lying_i},'honest_probe', {cell_arr_honest_p}, ...
     'honest_target', {cell_arr_honest_t},'honest_irrelevant', {cell_arr_honest_i});
-save('final_data.mat', 'final_data', '-v7.3');
+save('final_data_4_channels.mat', 'final_data_4_channels', '-v7.3');
 
 %% add the avg of all the electrodes (without EOG and VEOG)
 
-final_data = calcAvg(final_data);
-save('final_data.mat', 'final_data', '-v7.3');
+final_data_4_channels = calcAvg(final_data_4_channels);
+save('final_data_4_channels.mat', 'final_data_4_channels', '-v7.3');
 
 %%
 function [cell_arr_inner] = createStructInner(curr_path)
@@ -70,18 +70,10 @@ function [subject_table] = createSessionTable(session, repNumber)
     % sum_of_signals = zeros([size(session,1) 1]);
     counter =1;
     for i = 1:CHANNEL_NUMBER
-        % if (ismember(i, elects))
-            %% run this if you want to subtract the ground
-            % if (i == electrodes.enum.Fp1.index ||  i == electrodes.enum.P4.index)
-            %     subject_table(:,counter) = session(:,repNumber,ground) - session(:,repNumber,i);
-            % else
-            %     subject_table(:,counter) = session(:,repNumber,i) - session(:,repNumber,ground);
-            % end
-        %% run this if you dont want to subtract anything yet
-        subject_table(:,counter) = session(:,repNumber,i);
-        %%
-        counter = counter + 1;
-        % end
+        if (ismember(i, elects))
+            subject_table(:,counter) = session(:,repNumber,i);
+            counter = counter + 1;
+        end
     end 
 end
 
@@ -93,7 +85,7 @@ function [final_data] = calcAvg(final_data)
     for i = 1:numel(fields)
         field = fields{i};
         for j =1:size(final_data.(field),2)
-            final_data.(field){1,j}.tab(15,:) = mean(final_data.(field){1,j}.tab(1:12,:));
+            final_data.(field){1,j}.tab(5,:) = mean(final_data.(field){1,j}.tab(1:4,:));
         end
     end
 end
