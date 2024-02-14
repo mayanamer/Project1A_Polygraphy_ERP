@@ -1,8 +1,9 @@
 %% average of one type all signals for one subject
 % the purpose is to show proof of the correctness of the data
 constScript;
+
 %% decide which person / type of signal
-subject_num = 3;
+subject_num = 4;
 
 %% display the avg signal
 
