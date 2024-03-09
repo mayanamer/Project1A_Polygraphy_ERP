@@ -1,72 +1,58 @@
-% import signals 
+%% this script gets some signas for wavelet analysis
+constScript;
 
-honest_probe_path = '../data/honest_probe_renorm.mat';
-guilty_probe_path = '../data/lying_probe_renorm.mat';
-honest_target_path = '../data/honest_target_renorm.mat';
-guilty_target_path = '../data/lying_target_renorm.mat';
-honest_irr_path = '../data/honest_irrelevant_renorm.mat';
-guilty_irr_path = '../data/lying_irrelevant_renorm.mat';
+%% decide which person / type of signal
+sub = 4;
+sesh = 4;
+iter = 8;
+channel = 1;
+honest_or_lying = "lying";
+type = "probe";
 
-t_low = 0.7;
-t_high = 0.9;
-Ts = 0.002;
-channel = 10;
+signal = final_data_4_channels.(honest_or_lying + "_" + type){1, sub*sesh*iter}.tab(channel, :);
 
-path_to_use = guilty_probe_path;
-
-var_name = 'subject3_session4';
-load(path_to_use, var_name);
-signal = eval(var_name);
-signal = avg_with_channels(signal, 1.6, 0.002, [channel]);
-signal = signal(floor(t_low/Ts):floor(t_high/Ts));
-sigal = signal.';
-
-%%
-function [mean_signal, is_relevant] = avg_of_segments(signal, segment_len, sample_rate)
-
-    numSegments = floor(length(signal)*sample_rate / segment_len);
-
-    if (length(signal) == numSegments*segment_len/sample_rate)
-        % Reshape the signal so that each segment is in a separate row
-        reshaped_signal = reshape(signal, segment_len/sample_rate, numSegments);
-        sum_signal = sum(reshaped_signal, 2);
-        mean_signal = (sum_signal / numSegments).';
-        is_relevant = true;
-    else
-        mean_signal = zeros(1, segment_len/sample_rate);
-        is_relevant = false;
-    end
+figure;
+hold on;
+t = linspace(t_start, t_end, length(signal)).';   
+plot(t, signal, 'r');
+hold on;
+xlabel("time [sec]");
+title(honest_or_lying + " " + type + ", subject " + sub + ", session " + sesh + ", iteration " + iter);
+grid on;
     
-end
-%%
-
-function [mean_signal_channels, is_signal_good] = avg_with_channels(signal_w_all_channels, segment_len, sample_rate, channels)
-
-    sum_of_mean_signals = zeros(1, segment_len/sample_rate);
-    num_of_channels_used = length(channels);
-    is_signal_good = true;
-    for i = 1:numel(channels)
-        % Access the current element using the loop index
-        ch_num = channels(i);
-        
-        % Perform operations on the element
-        signal_one_channel = signal_w_all_channels(:,ch_num);
-        [mean_signal, is_relevant] = avg_of_segments(signal_one_channel, segment_len, sample_rate);
-        if (is_relevant)
-            sum_of_mean_signals = sum_of_mean_signals + mean_signal;
-        else
-            num_of_channels_used = num_of_channels_used - 1;
+%% this function calculates the average signal of one subject, lying or honest
+function [avg_signal] = calcAvgSignalPerSub(data, subject_num, honest_or_lying, signal_type)
+    all_relevant_signals = data.(honest_or_lying +"_"+ signal_type);
+    
+    filtered_signals = {};  % Initialize an empty cell array to store filtered structs
+    
+    for i = 1:numel(all_relevant_signals)
+        % Check if the 'sub' field of the struct matches subject_num
+        if all_relevant_signals{1,i}.sub == subject_num
+            % If it does, add the struct to the filtered_signals cell array
+            filtered_signals{end+1} = all_relevant_signals{1,i};
         end
     end
     
-    if (num_of_channels_used > 0)
-        mean_signal_channels = sum_of_mean_signals/length(channels);
-    else
-        is_signal_good = false;
-        mean_signal_channels = zeros(1, segment_len/sample_rate);
+    % create an array that has the avg of the 4 electrodes in each cell
+    avg_arr = {};
+    for i = 1:numel(filtered_signals)
+        avg_arr{i} = filtered_signals{i}.tab(5, :);
     end
-
+    
+    % Calculate the maximum length of vectors in avg_arr
+    max_length = max(cellfun(@numel, avg_arr));
+    
+    % Initialize a matrix to store padded vectors
+    padded_vectors = NaN(numel(avg_arr), max_length);
+    
+    % Pad or truncate vectors in avg_arr to have the same length
+    for i = 1:numel(avg_arr)
+        padded_vectors(i, 1:numel(avg_arr{i})) = avg_arr{i};
+    end
+    
+    % Calculate the mean along the first dimension
+    avg_signal = mean(padded_vectors, 1, 'omitnan');
 end
-
 
 

@@ -3,7 +3,7 @@
 constScript;
 
 %% decide which person / type of signal
-subject_num = 4;
+subject_num = 8;
 
 %% display the avg signal
 
