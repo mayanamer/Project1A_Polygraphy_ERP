@@ -1,28 +1,29 @@
 constScript;
 
 %% choose a signal
-subject = 9;
-session = 5;
-rep = 5;
+subject = 7;
+session = 3;
+rep = 6;
 type = 'honest_irrelevant';
-
+high = 25;
+low = 0.3;
 % get the correct signal table
-signal = final_data.(type){1,subject*session*rep}.tab;
-
-signal(1,:) = highpass(signal(1,:), f_low, f_high);
-signal(1,:) = lowpass(signal(1,:), f_low, f_high);
-
-signal(2,:) = highpass(signal(2,:), f_low, f_high);
-signal(2,:) = lowpass(signal(2,:), f_low, f_high);
-
-signal(3,:) = highpass(signal(3,:), f_low, f_high);
-signal(3,:) = lowpass(signal(3,:), f_low, f_high);
-
-signal(4,:) = highpass(signal(4,:), f_low, f_high);
-signal(4,:) = lowpass(signal(4,:), f_low, f_high);
-
-signal(5,:) = highpass(signal(5,:), f_low, f_high);
-signal(5,:) = lowpass(signal(5,:), f_low, f_high);
+signal = final_data_4_channels.(type){1,subject*session*rep}.tab;
+% 
+% signal(1,:) = highpass(signal(1,:), low, high);
+% signal(1,:) = lowpass(signal(1,:), low, high);
+% 
+% signal(2,:) = highpass(signal(2,:), low, high);
+% signal(2,:) = lowpass(signal(2,:), low, high);
+% 
+% signal(3,:) = highpass(signal(3,:), low, high);
+% signal(3,:) = lowpass(signal(3,:), low, high);
+% 
+% signal(4,:) = highpass(signal(4,:), low, high);
+% signal(4,:) = lowpass(signal(4,:), low, high);
+% 
+% signal(5,:) = highpass(signal(5,:), low, high);
+% signal(5,:) = lowpass(signal(5,:), low, high);
 
 %let's plot the signal
 figure;

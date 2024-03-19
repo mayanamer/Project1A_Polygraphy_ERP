@@ -18,22 +18,34 @@ for i = 1:numel(fields)
             continue;
         end
         % ---------------------------------------------------
-        cropped_signal = data_to_use.(field){1,j}.tab(5,:);
-        cropped_signal = cropped_signal(0.6*500:1*500);
+        cropped_signal = data_to_use.(field){1,j}.tab(2,:);
+        cropped_signal = cropped_signal(0.6*500:0.9*500);
+        
+        % filter the signal
+        % cropped_signal = highpass(cropped_signal, f_low, f_high);
+        % cropped_signal = lowpass(cropped_signal, f_low, f_high);
+
         wvt_table{end+1,1} = structGetName(data_to_use.(field){1,j});
+
+        % insert basic features
         feature_vector = extractFeaturs(cropped_signal);
         for h = 2:9
             wvt_table{end,h} = feature_vector(h-1);
         end
+
+        % compress signal using wavelet analysis and get coefficients
         [compressed, energy_levels] = wvt_compression(cropped_signal);
         for k = 1:numel(energy_levels)
-            wvt_table{end, k+10} = energy_levels(k);
+            wvt_table{end, k+9} = energy_levels(k);
         end
 
+        % extract same basic features but on compressed signal
         feature_vector = extractFeaturs(compressed);
         for t = 15:22
             wvt_table{end,t} = feature_vector(t-14);
         end
+
+        % insert the Tag for the signal
        wvt_table{end,23} = structGetTag(data_to_use.(field){1,j});
  
     end
@@ -45,7 +57,7 @@ T = cell2table(wvt_table, 'VariableNames', {'Signal', 'min', 'max', 'entropy', .
     'deltac', 'alphac', 'betac', 'gammac', 'max slopec', 'TAG'});  % Adjust 'VariableNames' for more columns.
 disp(T);
 % Write the table to an Excel file
-filename = 'wvt_initial.xlsx';
+filename = 'tmp_table.xlsx';
 writetable(T, filename);
 
 %%
@@ -56,11 +68,9 @@ end
 
 %%
 function [tag] = structGetTag(strt)
-    if (strcmp(strt.tag, "honest_target") || strcmp(strt.tag, "lying_target"))
+    if (strcmp(strt.tag, "honest_target") || strcmp(strt.tag, "lying_target") || (strcmp(strt.tag, "lying_probe")))
         tag = 'T';
-    elseif (strcmp(strt.tag, "lying_probe"))
-        tag = 'GP';
     else
-        tag = 'else';
+        tag = 'NT';
     end
 end
