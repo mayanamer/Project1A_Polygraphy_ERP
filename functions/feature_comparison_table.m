@@ -6,7 +6,7 @@ name_of_comparison_table = "feature_extraction_no_ground.xlsx";
 
 %%
 
-FEATURE_NUM = 8;
+FEATURE_NUM = 13;
 feat_comp_table = cell(0, FEATURE_NUM+2); 
 
 fields = fieldnames(data_to_use);
@@ -20,7 +20,7 @@ for i = 1:numel(fields)
         % end
         cropped_signal = data_to_use.(field){1,j}.tab(5,:);
         cropped_signal = cropped_signal(0.6*500:1*500);
-        feature_vector = extractFeaturs(cropped_signal);
+        feature_vector = extractFeatures(cropped_signal);
         feat_comp_table{end+1,1} = structGetName(data_to_use.(field){1,j});
         for t = 2:(FEATURE_NUM+1)
             feat_comp_table{end,t} = feature_vector(t-1);
