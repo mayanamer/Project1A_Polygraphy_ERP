@@ -2,7 +2,6 @@
 %% define the variables to use:
 constScript;
 data_to_use = final_data_4_channels;
-FEATURE_NUM = 16;
 %% get the signals
 table = cell(0.0, 107); 
 
