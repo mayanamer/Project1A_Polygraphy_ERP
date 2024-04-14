@@ -10,21 +10,13 @@ file_name = 'feat_table_include_spatial_feats.xlsx';
 table = readtable(file_name);
 
 % Add an empty column at the 124th index
-table = addvars(table, cell(size(table, 1), 1), 'After', 123); % Add an empty column after the 123rd column
+% table = addvars(table, cell(size(table, 1), 1), 'After', 123); % Add an empty column after the 123rd column
 
-
+table_index = 1;
 fields = fieldnames(data_to_use);
 for i = 1:numel(fields)
     field = fields{i};
     for j = 1:size(data_to_use.(field),2)
-        
-        % Perform on a small set of signals
-        % Only 2 subjects for now. Delete "if" later
-        % if data_to_use.(field){1,j}.sub > 1  
-        %     continue;
-        % elseif data_to_use.(field){1,j}.rep > 1
-        %     continue;
-        % end
         
         signal_name = structGetName(data_to_use.(field){1,j});
         disp(" ---- " + signal_name);
@@ -33,12 +25,16 @@ for i = 1:numel(fields)
         tag = structGetTag(data_to_use.(field){1,j});
         
         % Fill the new column at index 124 with the tag value
-        table{j, 124} = {tag};
+        table{table_index, 124} = {tag};
+        table_index = table_index + 1;
     end
 end
 
 %%
-T = cell2table(table, 'VariableNames', {'Signal', 'min_Fp1', 'max_Fp1', 'entropy_Fp1', 'delta_Fp1', 'alpha_Fp1', 'beta_Fp1', 'gamma_Fp1', 'max_slope_Fp1', ...
+% After modifying the table
+modified_cell_array = table2cell(table);
+%%
+T = cell2table(modified_cell_array, 'VariableNames', {'Signal', 'min_Fp1', 'max_Fp1', 'entropy_Fp1', 'delta_Fp1', 'alpha_Fp1', 'beta_Fp1', 'gamma_Fp1', 'max_slope_Fp1', ...
     'coeff1_Fp1', 'coeff2_Fp1', 'coeff3_Fp1', 'coeff4_Fp1', 'coeff5_Fp1','minc_Fp1', 'maxc_Fp1', 'entropyc_Fp1', 'deltac_Fp1', 'alphac_Fp1', 'betac_Fp1', 'gammac_Fp1', 'max slopec_Fp1', ...
     'min_Fp2', 'max_Fp2', 'entropy_Fp2', 'delta_Fp2', 'alpha_Fp2', 'beta_Fp2', 'gamma_Fp2', 'max_slope_Fp2', ...
     'coeff1_Fp2', 'coeff2_Fp2', 'coeff3_Fp2', 'coeff4_Fp2', 'coeff5_Fp2','minc_Fp2', 'maxc_Fp2', 'entropyc_Fp2', 'deltac_Fp2', 'alphac_Fp2', 'betac_Fp2', 'gammac_Fp2', 'max slopec_Fp2', ...
