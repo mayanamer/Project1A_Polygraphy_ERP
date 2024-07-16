@@ -173,7 +173,7 @@ T = cell2table(table, 'VariableNames', {'Signal', 'min_Fp1', 'max_Fp1', 'entropy
     'TAG'});  % Adjust 'VariableNames' for more columns.
 disp(T);
 % Write the table to an Excel file
-filename = 'feat_table_include_spatial_feats.xlsx';
+filename = 'feat_table_final1.xlsx';
 writetable(T, filename);
 
 %%

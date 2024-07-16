@@ -51,7 +51,7 @@ testData = table(data,dataSet,Var);
 % Actual visualization code using boxchart
 boxchart(testData.dataSet,testData.data,"GroupByColor",testData.Var)
 legend(freq_bands,'Location','bestoutside','Orientation','vertical')
-title('Band Power Desnity in Probe Signals for Different Frequency Bands for 2250 Samples')
+title('Average Power in Different Frequency Bands of Probe Signals (1200 Samples)')
 grid on
 grid minor
 

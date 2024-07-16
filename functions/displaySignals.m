@@ -2,10 +2,10 @@
 % this code takes tha data in table form, from "data_table_form" directory 
 % and plots it
 
-% fs = 500;
-% T = 0.002;
-% sample_length = 1.6; %sec
-% number_of_sumples = sample_length*T;
+fs = 500;
+T = 0.002;
+sample_length = 1.6; %sec
+number_of_sumples = sample_length/T;
 
 constScript; % holds all the constants
 

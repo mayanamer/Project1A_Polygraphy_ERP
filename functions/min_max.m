@@ -2,11 +2,16 @@ clc; clear;
 
 
 subject_list = {'subject1_session4', 'subject3_session3', ...
-    'subject12_session3', 'subject9_session2', 'subject14_session5'};
+    'subject12_session3', 'subject9_session2', 'subject14_session5', ...
+    'subject10_session2', 'subject2_session1', 'subject2_session5', ...
+    'subject10_session1', 'subject2_session2', 'subject3_session5', ...
+    'subject5_session1', 'subject5_session2', 'subject5_session5', ...
+    'subject4_session1', 'subject4_session2', 'subject4_session3', ...
+    'subject6_session1', 'subject4_session4', 'subject13_session3'};
 
 
-t_low = 0.7; %sec
-t_high = 0.9; %sec
+t_low = 0.6; %sec
+t_high = 1; %sec
 Fs = 500; %Hz
 Ts = 1/Fs;
 
@@ -33,14 +38,14 @@ max_result_t = getMaxVector(guilty_target_path, honest_target_path, var_names, t
 min_result_i = getMinVector(guilty_irr_path, honest_irr_path, var_names, t_low, t_high, Ts, 10);
 max_result_i = getMaxVector(guilty_irr_path, honest_irr_path, var_names, t_low, t_high, Ts, 10);
 
-min_max_result = [min_result_p; max_result_p; min_result_t; max_result_t; min_result_i; max_result_i];
+min_max_result = [min_result_p; max_result_p];%; min_result_t; max_result_t; min_result_i; max_result_i];
 
 %% plot
 
 % lengths of variables:
-nDataSets = 6;                          % guilty/honest OR min/max
+nDataSets = 2;                          % guilty/honest OR min/max
 nVars = 2;                              % num of subcategories (e.g, freq bands or P/T/I)
-nVals = length(min_max_result)/12;       % num of signals taken (for each data set)
+nVals = length(min_max_result)/4;       % num of signals taken (for each data set)
 
 data = min_max_result;
 
@@ -48,24 +53,24 @@ data = min_max_result;
 
 % Create column vector to indicate dataset
 dataSet = categorical([ones(nVars*nVals,1); ...
-    ones(nVars*nVals,1)*2; ...
-    ones(nVars*nVals,1)*3; ...
-    ones(nVars*nVals,1)*4; ...
-    ones(nVars*nVals,1)*5; ...
-    ones(nVars*nVals,1)*6;]);
-dataSet = renamecats(dataSet,{'Min', 'Max', 'Min - Target', 'Max - Target', 'Min - Irrelevant', 'Max - Irrelevant'});
+    ones(nVars*nVals,1)*2;]);% ...
+    % ones(nVars*nVals,1)*3; ...
+    % ones(nVars*nVals,1)*4; ...
+    % ones(nVars*nVals,1)*5; ...
+    % ones(nVars*nVals,1)*6;]);
+dataSet = renamecats(dataSet,{'Min', 'Max'});%, 'Min - Target', 'Max - Target', 'Min - Irrelevant', 'Max - Irrelevant'});
 % Create column vector to indicate the variable
 clear var
 var(1:nVals,1) = "Var1";
 var(end+1:end+nVals,1) = "Var2";
-Var = categorical([var;var;var;var;var;var]);
+Var = categorical([var;var]);%;var;var;var;var]);
 % Create a table
 testData = table(data,dataSet,Var);
 
 % Actual visualization code using boxchart
 boxchart(testData.dataSet,testData.data,"GroupByColor",testData.Var)
 legend({'Guilty', 'Honest'},'Location','bestoutside','Orientation','vertical')
-title('Min vs Max values for Each type of signal in 2250 Samples')
+title('Min vs Max for Probe Signals in 1200 Samples')
 grid on
 grid minor
 
@@ -81,7 +86,7 @@ function min_vec = getMinVector(guilty_path, honest_path, sub_list, t_low, t_hig
         signal = eval(var_name);
         signal = avg_with_channels(signal, 1.6, 0.002, [channel]);
         signal = signal(floor(t_low/Ts):floor(t_high/Ts));
-        min_vec(i,1) = min(abs(signal));
+        min_vec(i,1) = min(signal);
     end
 
     % honest
@@ -91,7 +96,7 @@ function min_vec = getMinVector(guilty_path, honest_path, sub_list, t_low, t_hig
         signal = eval(var_name);
         signal = avg_with_channels(signal, 1.6, 0.002, [channel]);
         signal = signal(floor(t_low/Ts):floor(t_high/Ts));
-        min_vec((num_signals+i),1) = min(abs(signal));
+        min_vec((num_signals+i),1) = min(signal);
     end
 end
 
@@ -107,7 +112,7 @@ function max_vec = getMaxVector(guilty_path, honest_path, sub_list, t_low, t_hig
         signal = eval(var_name);
         signal = avg_with_channels(signal, 1.6, 0.002, [channel]);
         signal = signal(t_low/Ts:t_high/Ts);
-        max_vec(i,1) = max(abs(signal));
+        max_vec(i,1) = max(signal);
     end
 
     % honest
@@ -117,7 +122,7 @@ function max_vec = getMaxVector(guilty_path, honest_path, sub_list, t_low, t_hig
         signal = eval(var_name);
         signal = avg_with_channels(signal, 1.6, 0.002, [channel]);
         signal = signal(t_low/Ts:t_high/Ts);
-        max_vec((num_signals+i),1) = max(abs(signal));
+        max_vec((num_signals+i),1) = max(signal);
     end
 end
 

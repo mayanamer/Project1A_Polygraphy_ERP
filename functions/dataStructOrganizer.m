@@ -64,7 +64,6 @@ function [subject_table] = createSessionTable(session, repNumber)
         electrodes.enum.P3.index;
         electrodes.enum.P4.index];
     constScript; % holds all the constants
-    ground = electrodes.enum.Fz.index;
     %                               800 x 5
     subject_table = zeros( [size(session,1) 5] );
     % sum_of_signals = zeros([size(session,1) 1]);
