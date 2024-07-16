@@ -10,3 +10,4 @@ functions/data_subject.mat
 functions/final_data.mat
 functions/final_data_4_channels.mat
 functions/feature_extraction_no_ground.xlsx
+*.xlsx
