@@ -107,7 +107,7 @@ for type = 1:3
     avg_signal = sum_signal/counter;
     % Plot the signal
     subplot(3, 1, type);
-    t = linspace(-0.5, 1.1, length(avg_signal)).';
+    t = linspace(-0.4, 1.2, length(avg_signal)).';
     
     plot(t, avg_signal.', signal_colors{type}, 'LineWidth', 1);
     xlabel('Time [sec]');
@@ -197,7 +197,7 @@ signal_types = {'lying_target', 'lying_probe', 'lying_irrelevant'};
 signal_colors = {'k', 'r', 'b'};
 
 figure;
-t = linspace(0.4, 1.2, n_samples).';  % Adjust time vector based on cropping range
+t = linspace(0, 0.8, n_samples).';  % Adjust time vector based on cropping range
 
 % Plotting lying signals
 subplot(2, 1, 1);  % Create subplot for lying signals
@@ -260,3 +260,82 @@ ylabel('Amplitude [uV]');
 grid on;
 title('Honest Signals');
 legend('honest\_target', 'honest\_probe', 'honest\_irrelevant');
+
+
+%% display un-averaged single signal 
+
+% which signal should we take?
+subject = 2;
+session = 2;
+rep = 2;
+
+
+% Initialize variables to store average signals
+n_samples = (1 - 0.4) * fs;  % Number of samples after cropping
+avg_signals_l = zeros(n_samples, 3);  % Three signals for lying types
+avg_signals_h = zeros(n_samples, 3);  % Three signals for honest types
+
+% Process lying signals
+signal_types = {'lying_target', 'lying_probe', 'lying_irrelevant'};
+signal_colors = {'k', 'r', 'b'};
+
+figure;
+t = linspace(0, 0.8, n_samples).';  % Adjust time vector based on cropping range
+
+% Plotting lying signals
+subplot(2, 1, 1);  % Create subplot for lying signals
+hold on;
+
+for type = 1:3
+    sig_type = signal_types{type};
+    counter = 0;
+   
+    signal = final_data_4_channels.(sig_type){member}.tab(5,:);
+    
+    % Plot the signal
+    plot(t, avg_signals_l(:, type), signal_colors{type}, 'LineWidth', 1);
+end
+
+hold off;
+
+% Customize subplot properties for lying signals
+xlabel('Time [sec]');
+ylabel('Amplitude [uV]');
+grid on;
+title('Lying Signals');
+legend('lying\_target', 'lying\_probe', 'lying\_irrelevant');
+
+% Process honest signals
+signal_types = {'honest_target', 'honest_probe', 'honest_irrelevant'};
+signal_colors = {'k', 'r', 'b'};
+
+% Plotting honest signals
+subplot(2, 1, 2);  % Create subplot for honest signals
+hold on;
+
+for type = 1:3
+    sig_type = signal_types{type};
+    counter = 0;
+    sum_signal = zeros(n_samples, 1); % Initialize as column vector
+    for member = 1:length(final_data_4_channels.(sig_type))
+        cropped_sig = final_data_4_channels.(sig_type){member}.tab(5,:);
+        cropped_sig = cropped_sig(0.4*fs+1:1*fs);  % Adjust cropping range
+        sum_signal = sum_signal + cropped_sig.';
+        counter = counter + 1;
+    end
+    avg_signals_h(:, type) = sum_signal / counter; % Average signal for this type
+    
+    % Plot the signal
+    plot(t, avg_signals_h(:, type), signal_colors{type}, 'LineWidth', 1);
+end
+
+hold off;
+
+% Customize subplot properties for honest signals
+xlabel('Time [sec]');
+ylabel('Amplitude [uV]');
+grid on;
+title('Honest Signals');
+legend('honest\_target', 'honest\_probe', 'honest\_irrelevant');
+
+

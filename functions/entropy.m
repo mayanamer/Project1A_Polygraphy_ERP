@@ -3,8 +3,14 @@ clc; clear;
 % load feature extraction toolbox folder
 addpath("../EEG-Feature-Extraction-Toolbox-main");
 
+
 subject_list = {'subject1_session4', 'subject3_session3', ...
-    'subject12_session3', 'subject9_session2', 'subject14_session5'};
+    'subject12_session3', 'subject9_session2', 'subject14_session5', ...
+    'subject10_session2', 'subject2_session1', 'subject2_session5', ...
+    'subject10_session1', 'subject2_session2', 'subject3_session5', ...
+    'subject5_session1', 'subject5_session2', 'subject5_session5', ...
+    'subject8_session1', 'subject4_session2', 'subject4_session3', ...
+    'subject6_session1', 'subject4_session4', 'subject13_session3'};
 
 
 t_low = 0.7; %sec
@@ -33,7 +39,7 @@ en_result = [en_result_p; en_result_t; en_result_i];
 
 nDataSets = 2;  % guilty/honest
 nVars = 3;      % P/T/I
-nVals = 5;      % num of signals taken (for each data set)
+nVals = 20;      % num of signals taken (for each data set)
 data = en_result;
 
 % box chart
@@ -56,7 +62,7 @@ testData = table(data,dataSet,Var);
 % Actual visualization code using boxchart
 boxchart(testData.dataSet,testData.data,"GroupByColor",testData.Var)
 legend({'Probe', 'Target', 'Irrelevant'},'Location','bestoutside','Orientation','vertical')
-title('Shannon Entropy of the different signals')
+title('Shannon Entropy of 1200 signals')
 grid on
 grid minor
 

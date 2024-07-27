@@ -55,3 +55,7 @@ disp(['Correct Guilty Predictions: ' num2str(correct_target_predictions)]);
 disp(['Correct Honest Predictions: ' num2str(correct_nontarget_predictions)]);
 disp(['False Guilty Predictions: ' num2str(false_target_predictions)]);
 disp(['False Honest Predictions: ' num2str(false_nontarget_predictions)]);
+
+%%
+disp(['avg: ' num2str(mean(scores(1:size(scores, 1)/2,2)))]);
+

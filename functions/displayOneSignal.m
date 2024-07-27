@@ -18,32 +18,22 @@ figure;
 % create a vector t for the time ticks
 % t = linspace(0, 1598, 1599).';
 t = linspace(0, 1.6, 800).';
-% correlation = xcorr(signal(1,:), signal(3,:));
-plot(t, signal(2, :), "r",'LineWidth',1);
+plot(t, signal(1, :), "g",'LineWidth',1);
 hold on;
-% plot(t, signal(2, :), "g",'LineWidth',1);
-% hold on;
-% plot(t, signal(3, :), "b",'LineWidth',1);
-% hold on;
-% plot(t, signal(4, :), "m",'LineWidth',1);
+plot(t, signal(2, :), "y",'LineWidth',1);
 hold on;
-% plot(t, signal(5, :), "k",'LineWidth',2);
+plot(t, signal(3, :), "b",'LineWidth',1);
+hold on;
+plot(t, signal(4, :), "m",'LineWidth',1);
+hold on;
+plot(t, signal(5, :), "k",'LineWidth',2);
 xlabel("Time [sec]");
 ylabel("Amplitude [uV]")
 
-% legend("fp1-p3", "avg");
+legend('Fp1', 'Fp2', 'P3', 'P4', 'Avg');
 grid on;
 grid minor;
 
-% ax2 = subplot(2,1,2);
-% plot(t, signal(3, 0.6*fs+1:1*fs) - signal(1,0.6*fs+1:1*fs), "k",'LineWidth',1);
-% hold on;
-% xlabel("Time [sec]");
-% ylabel("Amplitude [uV]")
-% legend("P3 - FP1");
-% grid on;
-% grid minor;
-%disp(signal);
 
 
 %% display probe vs target vs irrelevant
