@@ -5,7 +5,7 @@ NUM_SUBJECTS = 15;
 types = {'lying', 'honest'};
 T_THRESHOLD = 0.245;
 
-excluded_subjects = [6 ,7 ,1, 5, 15];
+excluded_subjects = [1, 5, 15];
 
 %%
 
@@ -68,11 +68,6 @@ for i = 1:length(types)
         accuracy = (correct_predictions / numRows) * 100;
         disp(['----------------  RESULTS  FOR SUB ' num2str(sub) ' ' type ' ----------------------']);
         disp(['ACCURACY: ' num2str(accuracy) '%.']);
-        disp(['Number of Probe Signals: ' num2str(numRows) '.']);
-        disp(['Correct Guilty Predictions: ' num2str(correct_target_predictions)]);
-        disp(['Correct Honest Predictions: ' num2str(correct_nontarget_predictions)]);
-        disp(['False Guilty Predictions: ' num2str(false_target_predictions)]);
-        disp(['False Honest Predictions: ' num2str(false_nontarget_predictions)]);
 
         avg_T_score = mean(scores(:,2));
         disp(['average of prediction values: ' num2str(avg_T_score)]);
@@ -97,5 +92,5 @@ for i = 1:length(types)
 end 
 
 disp('----------------- SUMMARY -----------------');
-disp(num2str((correct_truthtellers + correct_liars)*100/(2*NUM_SUBJECTS-10)));
+disp(num2str((correct_truthtellers + correct_liars)*100/(2*NUM_SUBJECTS-2*length(excluded_subjects))));
 

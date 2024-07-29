@@ -60,11 +60,11 @@ figure;
 t = linspace(-0.6, 0.6, 599).';
 
 subplot(2,1,1);
-plot(t, signal_lying_t_corr, "b",'LineWidth',1);
+plot(t, signal_lying_t_corr, "b",'LineWidth',2);
 hold on;
-plot(t, signal_lying_i_corr, "k",'LineWidth',1);
+plot(t, signal_lying_i_corr, "g",'LineWidth',2);
 hold on;
-plot(t, signal_lying_p_corr, "r",'LineWidth',1);
+plot(t, signal_lying_p_corr, "r",'LineWidth',2);
 hold on;
 
 xlabel("Time [sec]");
@@ -76,11 +76,11 @@ legend('Target', 'Irrelevant', 'Probe');
 
 hold on;
 subplot(2,1,2);
-plot(t, signal_honest_t_corr, "b",'LineWidth',1);
+plot(t, signal_honest_t_corr, "b",'LineWidth',2);
 hold on;
-plot(t, signal_honest_i_corr, "k",'LineWidth',1);
+plot(t, signal_honest_i_corr, "g",'LineWidth',2);
 hold on;
-plot(t, signal_honest_p_corr, "r",'LineWidth',1);
+plot(t, signal_honest_p_corr, "r",'LineWidth',2);
 hold on;
 
 xlabel("Time [sec]");

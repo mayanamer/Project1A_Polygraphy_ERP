@@ -54,3 +54,35 @@ legend(freq_bands,'Location','bestoutside','Orientation','vertical')
 title('Wavelet Transform Coefficients in Probe Signals (1200 samples)')
 grid on
 grid minor
+
+
+
+
+
+%% only coeff 5
+
+nDataSets = 2;  % guilty, honest
+nVars = 5;      % frequency bands
+nVals = length(data)/10;      % how many random sessions did we take? (1 means we took the feature of one signal)
+
+% Select only the data for 'Coeff5'
+coeffIndex = 5; % Index for 'Coeff5'
+coeffData = data(coeffIndex:nVars:end);
+
+% Create column vector to indicate dataset
+dataSet = categorical([ones(nVals,1); ones(nVals,1)*2]);
+dataSet = renamecats(dataSet,{'Guilty', 'Honest'});
+
+% Create column vector to indicate the variable (only 'Coeff5')
+Var = repmat(categorical({'Coeff5'}), [2*nVals, 1]);
+
+% Create a table
+testData = table(coeffData, dataSet, Var, 'VariableNames', {'Data', 'DataSet', 'Var'});
+
+% Actual visualization code using boxchart
+boxchart(testData.DataSet, testData.Data, "GroupByColor", testData.Var);
+legend({'Coeff5'}, 'Location', 'bestoutside', 'Orientation', 'vertical');
+title('Wavelet Transform Coefficients in Probe Signals (1200 samples)');
+grid on;
+grid minor;
+

@@ -194,7 +194,7 @@ avg_signals_h = zeros(n_samples, 3);  % Three signals for honest types
 
 % Process lying signals
 signal_types = {'lying_target', 'lying_probe', 'lying_irrelevant'};
-signal_colors = {'k', 'r', 'b'};
+signal_colors = {'b', 'r', 'g'};
 
 figure;
 t = linspace(0, 0.8, n_samples).';  % Adjust time vector based on cropping range
@@ -216,7 +216,7 @@ for type = 1:3
     avg_signals_l(:, type) = sum_signal / counter; % Average signal for this type
     
     % Plot the signal
-    plot(t, avg_signals_l(:, type), signal_colors{type}, 'LineWidth', 1);
+    plot(t, avg_signals_l(:, type), signal_colors{type}, 'LineWidth', 2);
 end
 
 hold off;
@@ -230,7 +230,7 @@ legend('lying\_target', 'lying\_probe', 'lying\_irrelevant');
 
 % Process honest signals
 signal_types = {'honest_target', 'honest_probe', 'honest_irrelevant'};
-signal_colors = {'k', 'r', 'b'};
+signal_colors = {'b', 'r', 'g'};
 
 % Plotting honest signals
 subplot(2, 1, 2);  % Create subplot for honest signals
@@ -249,7 +249,7 @@ for type = 1:3
     avg_signals_h(:, type) = sum_signal / counter; % Average signal for this type
     
     % Plot the signal
-    plot(t, avg_signals_h(:, type), signal_colors{type}, 'LineWidth', 1);
+    plot(t, avg_signals_h(:, type), signal_colors{type}, 'LineWidth', 2);
 end
 
 hold off;

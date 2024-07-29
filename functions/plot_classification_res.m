@@ -5,7 +5,7 @@ NUM_SUBJECTS = 15;
 types = {'lying', 'honest'};
 T_THRESHOLD = 0.245;
 
-excluded_subjects = [6 ,7 ,1, 5, 15];
+excluded_subjects = [6, 1, 5, 15];
 
 %%
 
@@ -13,7 +13,7 @@ excluded_subjects = [6 ,7 ,1, 5, 15];
 results = [];
 thresholds = [];
 
-for t = (0.1: 0.01: 0.55)
+for t = (0.1: 0.005: 0.55)
 
     correct_liars = 0;
     false_liars = 0;
@@ -83,7 +83,7 @@ for t = (0.1: 0.01: 0.55)
         
     end 
     
-    result = (correct_truthtellers + correct_liars)*100/(2*NUM_SUBJECTS-10);
+    result = (correct_truthtellers + correct_liars)*100/(2*NUM_SUBJECTS-8);
     results = [results, result];
     thresholds = [thresholds, t];
 end
@@ -91,10 +91,10 @@ end
 
 
 figure;
-plot(thresholds, results);
-title("Classification Result In Relation to Threshold Value");
-xlabel("Threshold");
-ylabel("Result [%]");
+plot(thresholds, results, 'LineWidth', 2);
+title("Classification Result In Relation to Threshold Value, Excluding the Outlier", 'FontSize',18);
+xlabel("Threshold",'FontSize',18);
+ylabel("Result [%]",'FontSize',18);
 
 
 
